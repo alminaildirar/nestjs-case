@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { HttpClientService } from 'src/common/http-client/http-client.service';
+import { HttpClientService } from '../../common/http-client/http-client.service';
 import { ConfigurationService } from '../../config/configuration.service';
 import {
   MovieApiResult,
@@ -50,13 +50,13 @@ export class TmdbApiService {
 
     try {
       const response = await firstValueFrom(
-        this.httpClientService.get<MovieDetailResponse>(url, params)
+        this.httpClientService.get<MovieDetailResponse>(url, params),
       );
       return response;
     } catch (error) {
       console.error(
         `Failed to fetch details for movie ${movieId} from TMDB:`,
-        error
+        error,
       );
       throw new Error(`Failed to fetch details for movie ${movieId}`);
     }

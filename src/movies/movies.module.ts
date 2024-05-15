@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-
 import { Movie, MovieSchema } from './models/movie.model';
-import { HttpClientModule } from 'src/common/http-client/http-client.module';
+import { HttpClientModule } from '../common/http-client/http-client.module';
 import { ConfigurationModule } from '../config/configuration.module';
-
 import { TmdbApiService } from './services/tmdb-api.service';
 import { MovieRepository } from './repository/movie.repository';
 import { MovieController } from './controller/movies.controller';

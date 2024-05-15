@@ -12,16 +12,16 @@ export class MovieRepository {
 
   async storeMovies(movies: MovieCreateDTO[]): Promise<void> {
     try {
-      for (const movie of movies) {
-        await this.movieModel.updateOne(
-          { id: movie.id },
-          { $set: movie },
-          { upsert: true },
-        );
-      }
-      console.log('Movies stored successfully!');
+      const bulkOps = movies.map((movie) => ({
+        updateOne: {
+          filter: { id: movie.id },
+          update: { $set: movie },
+          upsert: true,
+        },
+      }));
+
+      await this.movieModel.bulkWrite(bulkOps);
     } catch (error) {
-      console.error('Failed to store movies:', error);
       throw new Error('Failed to store movies');
     }
   }

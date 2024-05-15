@@ -6,6 +6,7 @@ import {
   MovieApiResult,
   TmdbApiResponse,
 } from '../interfaces/tmdb-movies-response';
+import { MovieDetailResponse } from '../interfaces/tmdb-movie-detail-response';
 
 @Injectable()
 export class TmdbApiService {
@@ -37,6 +38,27 @@ export class TmdbApiService {
     } catch (error) {
       console.error('Failed to fetch movies from TMDB:', error);
       throw new Error('Failed to fetch movies');
+    }
+  }
+
+  async fetchMovieDetails(movieId: string): Promise<MovieDetailResponse> {
+    const url = `https://api.themoviedb.org/3/movie/${movieId}`;
+    const params = {
+      api_key: this.configService.tmdbApiKey,
+      language: 'en-US',
+    };
+
+    try {
+      const response = await firstValueFrom(
+        this.httpClientService.get<MovieDetailResponse>(url, params)
+      );
+      return response;
+    } catch (error) {
+      console.error(
+        `Failed to fetch details for movie ${movieId} from TMDB:`,
+        error
+      );
+      throw new Error(`Failed to fetch details for movie ${movieId}`);
     }
   }
 }

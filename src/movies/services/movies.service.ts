@@ -1,8 +1,44 @@
 import { Injectable } from '@nestjs/common';
-
 import { MovieRepository } from '../repository/movie.repository';
+import { TmdbApiService } from './tmdb-api.service';
+import { MovieMapper } from '../mappers/movie.mapper';
+import { MovieCreateDTO } from '../dto/movie-create.dto';
+import { MovieDetailResponse } from '../interfaces/tmdb-movie-detail-response';
 
 @Injectable()
 export class MoviesService {
-  constructor(private readonly movieRepository: MovieRepository) {}
+  constructor(
+    private readonly tmdbApiService: TmdbApiService,
+    private readonly movieRepository: MovieRepository,
+    private readonly movieMapper: MovieMapper,
+  ) {}
+
+  async getAndStoreMovies(): Promise<void> {
+    try {
+      const moviesData = await this.tmdbApiService.fetchMovies();
+      const firstFiveMoviesData = moviesData.slice(0, 5);
+      const movieDTOs: MovieCreateDTO[] = [];
+
+      for (const movie of firstFiveMoviesData) {
+        try {
+          const movieDetail: MovieDetailResponse =
+            await this.tmdbApiService.fetchMovieDetails(movie.id.toString());
+          const movieDTO: MovieCreateDTO =
+            await this.movieMapper.mapToDTO(movieDetail);
+          movieDTOs.push(movieDTO);
+        } catch (error) {
+          console.error(
+            `Failed to fetch details for movie ${movie.id}:`,
+            error,
+          );
+        }
+      }
+
+      await this.movieRepository.storeMovies(movieDTOs);
+      console.log('Movies fetched and stored successfully!');
+    } catch (error) {
+      console.error('Failed to fetch and store movies:', error);
+      throw new Error('Failed to fetch and store movies');
+    }
+  }
 }

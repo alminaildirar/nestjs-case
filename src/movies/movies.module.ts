@@ -9,6 +9,7 @@ import { TmdbApiService } from './services/tmdb-api.service';
 import { MovieRepository } from './repository/movie.repository';
 import { MovieController } from './controller/movies.controller';
 import { MoviesService } from './services/movies.service';
+import { MovieMapper } from './mappers/movie.mapper';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { MoviesService } from './services/movies.service';
     HttpClientModule,
   ],
   controllers: [MovieController],
-  providers: [MoviesService, TmdbApiService, MovieRepository],
+  providers: [MoviesService, TmdbApiService, MovieRepository, MovieMapper],
   exports: [MoviesService],
 })
 export class MoviesModule {}

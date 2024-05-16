@@ -58,4 +58,8 @@ export class MoviesService {
       throw new Error('Failed to retrieve movies');
     }
   }
+
+  async save(movie: MovieCreateDTO): Promise<Movie> {
+    return this.movieRepository.save(movie);
+  }
 }

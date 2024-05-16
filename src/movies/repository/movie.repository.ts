@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Movie, MovieDocument } from '../models/movie.model';
@@ -39,6 +39,21 @@ export class MovieRepository {
       return await this.movieModel.findOne({ id }).exec();
     } catch (error) {
       throw error;
+    }
+  }
+
+  async save(movie: MovieCreateDTO): Promise<Movie> {
+    try {
+      const savedMovie = await this.movieModel
+        .findOneAndUpdate(
+          { id: movie.id },
+          { $set: movie },
+          { new: true, upsert: true },
+        )
+        .exec();
+      return savedMovie;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to save movie');
     }
   }
 }

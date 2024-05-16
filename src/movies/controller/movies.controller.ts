@@ -1,6 +1,7 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MoviesService } from '../services/movies.service';
 import { Movie } from '../models/movie.model';
+import { MovieCreateDTO } from '../dto/movie-create.dto';
 
 @Controller('movies')
 export class MovieController {
@@ -22,5 +23,11 @@ export class MovieController {
       throw new NotFoundException(`Movie with id ${id} not found`);
     }
     return movie;
+  }
+
+  @Post()
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async save(@Body() movie: MovieCreateDTO): Promise<Movie> {
+    return this.moviesService.save(movie);
   }
 }

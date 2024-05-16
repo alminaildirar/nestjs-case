@@ -1,5 +1,3 @@
-// src/graphql/movie.model.ts
-
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 
 @ObjectType()

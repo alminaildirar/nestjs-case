@@ -33,4 +33,12 @@ export class MovieRepository {
       throw new Error('Failed to fetch movies');
     }
   }
+
+  async findById(id: string): Promise<Movie> {
+    try {
+      return await this.movieModel.findOne({ id }).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

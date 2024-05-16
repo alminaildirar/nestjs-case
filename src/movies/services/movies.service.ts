@@ -50,4 +50,12 @@ export class MoviesService {
       throw new Error('Failed to retrieve movies');
     }
   }
+
+  async findById(id: string): Promise<Movie> {
+    try {
+      return await this.movieRepository.findById(id);
+    } catch (error) {
+      throw new Error('Failed to retrieve movies');
+    }
+  }
 }

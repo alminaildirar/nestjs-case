@@ -28,17 +28,12 @@ export class MoviesService {
             await this.movieMapper.mapToDTO(movieDetail);
           movieDTOs.push(movieDTO);
         } catch (error) {
-          console.error(
-            `Failed to fetch details for movie ${movie.id}:`,
-            error,
-          );
+          throw new Error('Failed to get and store movie!');
         }
       }
 
       await this.movieRepository.storeMovies(movieDTOs);
-      console.log('Movies fetched and stored successfully!');
     } catch (error) {
-      console.error('Failed to fetch and store movies:', error);
       throw new Error('Failed to fetch and store movies');
     }
   }

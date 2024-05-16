@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { of, throwError } from 'rxjs';
-import { TmdbApiService } from './tmdb-api.service';
-import { HttpClientService } from '../../common/http-client/http-client.service';
-import { ConfigurationService } from '../../config/configuration.service';
+import { TmdbApiService } from '../../src/movies/services/tmdb-api.service';
+import { HttpClientService } from '../../src/common/http-client/http-client.service';
+import { ConfigurationService } from '../../src/config/configuration.service';
 import {
   mockTmdbApiResponse,
   mockMovieDetailResponse,
-} from '../../test-mock-data/mock-data';
+} from '../test-mock-data/mock-data';
 
 describe('TmdbApiService', () => {
   let service: TmdbApiService;

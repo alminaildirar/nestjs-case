@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MovieRepository } from './movie.repository';
-import { Movie, MovieDocument } from '../models/movie.model';
-import { MovieCreateDTO } from '../dto/movie-create.dto';
+import { MovieRepository } from '../../src/movies/repository/movie.repository';
+import { Movie, MovieDocument } from '../../src/movies/models/movie.model';
+import { MovieCreateDTO } from '../../src/movies/dto/movie-create.dto';
 import {
   NotFoundException,
   InternalServerErrorException,

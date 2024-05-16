@@ -1,5 +1,5 @@
-import { TmdbApiResponse } from '../movies/interfaces/tmdb-movies-response';
-import { MovieDetailResponse } from '../movies/interfaces/tmdb-movie-detail-response';
+import { TmdbApiResponse } from '../../src/movies/interfaces/tmdb-movies-response';
+import { MovieDetailResponse } from '../../src/movies/interfaces/tmdb-movie-detail-response';
 import { MovieCreateDTO } from 'src/movies/dto/movie-create.dto';
 import { Movie } from 'src/movies/models/movie.model';
 

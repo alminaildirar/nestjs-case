@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MovieController } from './movies.controller';
-import { MoviesService } from '../services/movies.service';
+import { MovieController } from '../../src/movies/controller/movies.controller';
+import { MoviesService } from '../../src/movies/services/movies.service';
 import { NotFoundException, ValidationPipe } from '@nestjs/common';
-import { Movie } from '../models/movie.model';
-import { MovieCreateDTO } from '../dto/movie-create.dto';
-import { mockMovieDTO } from '../../test-mock-data/mock-data';
+import { Movie } from '../../src/movies/models/movie.model';
+import { MovieCreateDTO } from '../../src/movies/dto/movie-create.dto';
+import { mockMovieDTO } from '../test-mock-data/mock-data';
 
 describe('MovieController', () => {
   let movieController: MovieController;

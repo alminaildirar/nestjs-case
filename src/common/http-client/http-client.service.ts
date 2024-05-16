@@ -65,7 +65,6 @@ export class HttpClientService {
         return response;
       },
       (error) => {
-        console.error('Error in HTTP response from:', error.config.url);
         return Promise.reject(error);
       },
     );

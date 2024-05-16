@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MoviesService } from './movies.service';
-import { TmdbApiService } from './tmdb-api.service';
-import { MovieRepository } from '../repository/movie.repository';
-import { MovieMapper } from '../mappers/movie.mapper';
+import { MoviesService } from '../../src/movies/services/movies.service';
+import { TmdbApiService } from '../../src/movies/services/tmdb-api.service';
+import { MovieRepository } from '../../src/movies/repository/movie.repository';
+import { MovieMapper } from '../../src/movies/mappers/movie.mapper';
 import {
   mockMovieDTO,
   mockMovieDetailResponse,
   mockTmdbApiResponse,
   mockMovie,
-} from '../../test-mock-data/mock-data';
+} from '../test-mock-data/mock-data';
 
 describe('MoviesService', () => {
   let service: MoviesService;

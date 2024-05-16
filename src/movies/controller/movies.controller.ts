@@ -79,6 +79,10 @@ export class MovieController {
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   @ApiParam({ name: 'id', description: 'The ID of the movie to delete' })
   async removeById(@Param('id') id: string): Promise<Movie> {
-    return this.moviesService.removeById(id);
+    const movie = await this.moviesService.removeById(id);
+    if (!movie) {
+      throw new NotFoundException(`Movie with id ${id} not found`);
+    }
+    return movie;
   }
 }

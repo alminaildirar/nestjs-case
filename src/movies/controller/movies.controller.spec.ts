@@ -4,19 +4,18 @@ import { MoviesService } from '../services/movies.service';
 import { NotFoundException, ValidationPipe } from '@nestjs/common';
 import { Movie } from '../models/movie.model';
 import { MovieCreateDTO } from '../dto/movie-create.dto';
+import { mockMovieDTO } from '../../test-mock-data/mock-data';
 
 describe('MovieController', () => {
   let movieController: MovieController;
   let moviesService: MoviesService;
 
   const mockMoviesService = {
-    findAll: jest
-      .fn()
-      .mockResolvedValue([{ id: '1', name: 'Movie 1' } as Movie]),
+    findAll: jest.fn().mockResolvedValue([mockMovieDTO as Movie]),
     findById: jest
       .fn()
       .mockImplementation((id: string) =>
-        Promise.resolve({ id, name: 'Movie 1' } as Movie),
+        Promise.resolve({ ...mockMovieDTO, id } as Movie),
       ),
     save: jest
       .fn()
@@ -26,7 +25,7 @@ describe('MovieController', () => {
     removeById: jest
       .fn()
       .mockImplementation((id: string) =>
-        Promise.resolve({ id, name: 'Movie 1' } as Movie),
+        Promise.resolve({ ...mockMovieDTO, id } as Movie),
       ),
   };
 
@@ -51,9 +50,7 @@ describe('MovieController', () => {
 
   describe('findAll', () => {
     it('should return an array of movies', async () => {
-      await expect(movieController.findAll()).resolves.toEqual([
-        { id: '1', name: 'Movie 1' },
-      ]);
+      await expect(movieController.findAll()).resolves.toEqual([mockMovieDTO]);
     });
 
     it('should throw an error if service fails', async () => {
@@ -68,10 +65,9 @@ describe('MovieController', () => {
 
   describe('findById', () => {
     it('should return a movie by id', async () => {
-      await expect(movieController.findById('1')).resolves.toEqual({
-        id: '1',
-        name: 'Movie 1',
-      });
+      await expect(movieController.findById('1')).resolves.toEqual(
+        mockMovieDTO,
+      );
     });
 
     it('should throw NotFoundException if movie is not found', async () => {
@@ -84,20 +80,13 @@ describe('MovieController', () => {
 
   describe('save', () => {
     it('should create or update a movie', async () => {
-      const dto: MovieCreateDTO = {
-        name: 'Movie 1',
-        overview: 'Overview',
-        releaseDate: '2022-01-01',
-        genres: [],
-      };
-      await expect(movieController.save(dto)).resolves.toEqual({
-        id: '1',
-        ...dto,
-      });
+      await expect(movieController.save(mockMovieDTO)).resolves.toEqual(
+        mockMovieDTO,
+      );
     });
 
     it('should validate movie data', async () => {
-      const dto: MovieCreateDTO = {
+      const dto = {
         name: '',
         overview: '',
         releaseDate: '',
@@ -115,10 +104,9 @@ describe('MovieController', () => {
 
   describe('removeById', () => {
     it('should delete a movie by id', async () => {
-      await expect(movieController.removeById('1')).resolves.toEqual({
-        id: '1',
-        name: 'Movie 1',
-      });
+      await expect(movieController.removeById('1')).resolves.toEqual(
+        mockMovieDTO,
+      );
     });
 
     it('should throw NotFoundException if movie is not found', async () => {

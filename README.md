@@ -15,8 +15,8 @@ This NestJS-based application provides a service for fetching and storing movie 
 **Step 1: Clone the Repository**
 
 ```bash
-git clone https://github.com/username/my-nestjs-project.git
-cd my-nestjs-project
+git clone https://github.com/alminaildirar/nestjs-case.git
+cd nestjs-case
 ```
 
 **Step 2: Install Dependencies**

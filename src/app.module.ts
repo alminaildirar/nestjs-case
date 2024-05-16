@@ -7,9 +7,11 @@ import { ConfigurationModule } from './config/configuration.module';
 import { MongooseConfigService } from './config/mongoose.config';
 import { ConfigurationService } from './config/configuration.service';
 import { TasksModule } from './tasks/tasks.module';
+import { GqlModule } from './graphql/graphql.module';
 
 @Module({
   imports: [
+    GqlModule,
     HttpClientModule,
     ConfigurationModule,
     MongooseModule.forRootAsync({

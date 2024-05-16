@@ -4,6 +4,7 @@ import { TmdbApiService } from './tmdb-api.service';
 import { MovieMapper } from '../mappers/movie.mapper';
 import { MovieCreateDTO } from '../dto/movie-create.dto';
 import { MovieDetailResponse } from '../interfaces/tmdb-movie-detail-response';
+import { Movie } from '../models/movie.model';
 
 @Injectable()
 export class MoviesService {
@@ -39,6 +40,14 @@ export class MoviesService {
     } catch (error) {
       console.error('Failed to fetch and store movies:', error);
       throw new Error('Failed to fetch and store movies');
+    }
+  }
+
+  async findAll(): Promise<Movie[]> {
+    try {
+      return await this.movieRepository.findAll();
+    } catch (error) {
+      throw new Error('Failed to retrieve movies');
     }
   }
 }

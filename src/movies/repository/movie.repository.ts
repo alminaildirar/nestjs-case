@@ -25,4 +25,12 @@ export class MovieRepository {
       throw new Error('Failed to store movies');
     }
   }
+
+  async findAll(): Promise<Movie[]> {
+    try {
+      return await this.movieModel.find().exec();
+    } catch (error) {
+      throw new Error('Failed to fetch movies');
+    }
+  }
 }

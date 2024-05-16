@@ -36,7 +36,6 @@ export class TmdbApiService {
       );
       return response.results;
     } catch (error) {
-      console.error('Failed to fetch movies from TMDB:', error);
       throw new Error('Failed to fetch movies');
     }
   }
@@ -54,10 +53,6 @@ export class TmdbApiService {
       );
       return response;
     } catch (error) {
-      console.error(
-        `Failed to fetch details for movie ${movieId} from TMDB:`,
-        error,
-      );
       throw new Error(`Failed to fetch details for movie ${movieId}`);
     }
   }

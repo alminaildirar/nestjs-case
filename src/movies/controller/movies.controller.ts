@@ -1,4 +1,14 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { MoviesService } from '../services/movies.service';
 import { Movie } from '../models/movie.model';
 import { MovieCreateDTO } from '../dto/movie-create.dto';
@@ -29,5 +39,10 @@ export class MovieController {
   @UsePipes(new ValidationPipe({ transform: true }))
   async save(@Body() movie: MovieCreateDTO): Promise<Movie> {
     return this.moviesService.save(movie);
+  }
+
+  @Delete(':id')
+  async removeById(@Param('id') id: string): Promise<Movie> {
+    return this.moviesService.removeById(id);
   }
 }

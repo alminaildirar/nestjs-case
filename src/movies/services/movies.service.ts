@@ -62,4 +62,8 @@ export class MoviesService {
   async save(movie: MovieCreateDTO): Promise<Movie> {
     return this.movieRepository.save(movie);
   }
+
+  async removeById(id: string): Promise<Movie> {
+    return this.movieRepository.removeById(id);
+  }
 }

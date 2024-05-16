@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Movie, MovieDocument } from '../models/movie.model';
@@ -54,6 +54,18 @@ export class MovieRepository {
       return savedMovie;
     } catch (error) {
       throw new InternalServerErrorException('Failed to save movie');
+    }
+  }
+
+  async removeById(id: string): Promise<Movie> {
+    try {
+      const movie = await this.movieModel.findOneAndDelete({ id }).exec();
+      if (!movie) {
+        throw new NotFoundException(`Movie with id ${id} not found`);
+      }
+      return movie;
+    } catch (error) {
+      throw error;
     }
   }
 }

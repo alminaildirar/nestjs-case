@@ -4,10 +4,11 @@ import {
   Delete,
   Get,
   NotFoundException,
+  InternalServerErrorException,
   Param,
   Post,
   UsePipes,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -36,7 +37,7 @@ export class MovieController {
     try {
       return await this.moviesService.findAll();
     } catch (error) {
-      throw new Error('Failed to retrieve movies');
+      throw new InternalServerErrorException('Failed to retrieve movies');
     }
   }
 
@@ -49,11 +50,15 @@ export class MovieController {
   @ApiResponse({ status: 404, description: 'Movie not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   async findById(@Param('id') id: string): Promise<Movie> {
-    const movie = await this.moviesService.findById(id);
-    if (!movie) {
-      throw new NotFoundException(`Movie with id ${id} not found`);
+    try {
+      const movie = await this.moviesService.findById(id);
+      if (!movie) {
+        throw new NotFoundException(`Movie with id ${id} not found`);
+      }
+      return movie;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to retrieve the movie');
     }
-    return movie;
   }
 
   @Post()
@@ -66,7 +71,11 @@ export class MovieController {
   @ApiBody({ type: MovieCreateDTO })
   @UsePipes(new ValidationPipe({ transform: true }))
   async save(@Body() movie: MovieCreateDTO): Promise<Movie> {
-    return this.moviesService.save(movie);
+      try {
+      return await this.moviesService.save(movie);
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to save the movie');
+    }
   }
 
   @Delete(':id')
@@ -78,11 +87,15 @@ export class MovieController {
   @ApiResponse({ status: 404, description: 'Movie not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   @ApiParam({ name: 'id', description: 'The ID of the movie to delete' })
-  async removeById(@Param('id') id: string): Promise<Movie> {
-    const movie = await this.moviesService.removeById(id);
-    if (!movie) {
-      throw new NotFoundException(`Movie with id ${id} not found`);
+ async removeById(@Param('id') id: string): Promise<Movie> {
+    try {
+      const movie = await this.moviesService.removeById(id);
+      if (!movie) {
+        throw new NotFoundException(`Movie with id ${id} not found`);
+      }
+      return movie;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to delete the movie');
     }
-    return movie;
   }
 }
